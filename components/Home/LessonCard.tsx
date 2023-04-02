@@ -1,12 +1,17 @@
+import Image from 'next/image';
 import React from 'react';
 import { Lesson } from './MyConponent';
 import { XAPIClient } from './Xapi';
 
 const LessonCard: React.FC<Lesson> = (props) => {
   const xapi = XAPIClient.getInstance();
-  const min = 190;
-  const max = 200;
-  const random = Math.floor(Math.random() * (max - min) + min);
+
+  const imgLoader = () => {
+    const min = 190;
+    const max = 200;
+    const random = Math.floor(Math.random() * (max - min) + min);
+    return `https://random.imagecdn.app/1080/${random}`;
+  };
 
   const handleComplete = () => {
     if (props?.isXapiEnable) {
@@ -55,7 +60,7 @@ const LessonCard: React.FC<Lesson> = (props) => {
 
       xapi.sendStatement(data);
     }
-  }, [props]);
+  }, [props, xapi]);
 
   return (
     <div className="p-5 bg-white border border-gray-100 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -73,10 +78,13 @@ const LessonCard: React.FC<Lesson> = (props) => {
       </label>
 
       <a href="#">
-        <img
+        <Image
+          loader={imgLoader}
+          width={1080}
+          height={200}
           // key={`img-${title}`}
           className="rounded-t-lg"
-          src={`https://random.imagecdn.app/1080/${random}`}
+          src="img.png"
           alt=""
         />
       </a>
